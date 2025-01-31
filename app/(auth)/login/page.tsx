@@ -1,25 +1,64 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader } from "lucide-react";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const validateEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
+
+    if (!email || !password) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+
+    // Simulando un login con retraso
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Successfully Logged In");
+    }, 2000);
   };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="w-full max-w-md p-10 border border-muted/80 rounded-lg shadow-lg bg-card">
+      <ToastContainer
+        theme="dark"
+        toastClassName="bg-black text-white shadow-lg rounded-lg"
+        bodyClassName="font-sans text-sm"
+        position="bottom-right"
+        closeButton={false}
+        pauseOnHover={false}
+        autoClose={1000}
+      />
+
+      <div className="w-full max-w-md p-10 border border-muted rounded-lg shadow-lg bg-card">
         <div className="bg-card rounded-lg p-8">
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <Lock size={48} />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center">
+              {loading ? (
+                <Loader size={48} className="animate-spin" />
+              ) : (
+                <Lock size={48} />
+              )}
             </div>
           </div>
 
@@ -30,7 +69,7 @@ export default function Login() {
             Don't have an account yet?{" "}
             <Link
               href="/signup"
-              className="text-primary font-bold hover:underline hover:text-lime-500"
+              className="text-primary font-bold hover:underline hover:text-primary-hover"
             >
               Sign up
             </Link>
@@ -44,28 +83,38 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-black border border-muted/80 text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all"
+                className="bg-black border border-muted text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               />
             </div>
+
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="bg-black border border-muted/80 text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-lime-600 transition-all"
+                className="bg-black border border-muted text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-hover transition-all pr-10"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-3 flex items-center text-muted-foreground hover:text-white"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
+
             <button
               type="submit"
-              className="w-full bg-lime-600 hover:bg-lime-700 text-white rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:underline"
+              className="w-full bg-primary hover:bg-primary-hover text-white rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:underline"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
-          <button className="w-full bg-black border border-gray-200 hover:underline text-white rounded-lg py-3 text-sm font-semibold flex items-center justify-center gap-2 mt-2 transition-all duration-200 ease-in-out transform hover:scale-105">
+          <button className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 text-sm font-semibold flex items-center justify-center gap-2 mt-2 transition-all duration-200 ease-in-out transform hover:scale-105 hover:bg-gray-100 hover:border-gray-400">
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -74,6 +123,16 @@ export default function Login() {
             </svg>
             Login with Google
           </button>
+
+          <p className="text-center text-muted-foreground text-sm mt-6">
+            Forgot Your Password?{" "}
+            <Link
+              href="/forgot-password"
+              className="text-primary font-bold hover:underline hover:text-primary-hover"
+            >
+              Reset Your Password
+            </Link>
+          </p>
         </div>
       </div>
     </div>

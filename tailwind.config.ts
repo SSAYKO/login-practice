@@ -8,12 +8,13 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["var(--font-inter)"],
-      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#0f0f0f",
+        card: "#1a1a1a",
+        primary: "#84cc16", // Lime-600
+        "primary-hover": "#65a30d", // Lime-700
+        "muted-foreground": "#a3a3a3",
+        muted: "#3f3f3f",
       },
     },
   },
