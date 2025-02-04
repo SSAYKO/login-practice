@@ -82,7 +82,6 @@ export default function Login() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 className="bg-black border border-muted text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               />
             </div>
@@ -93,7 +92,6 @@ export default function Login() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 className="bg-black border border-muted text-muted-foreground px-4 py-3 w-full rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-hover transition-all pr-10"
               />
               <button
@@ -107,14 +105,19 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-hover text-white rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:underline"
+              className="w-full border border-muted bg-black text-primary rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-in-out transform hover:underline"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}
             </button>
           </form>
+          <label className="flex items-center gap-2 mt-4">
+            <hr className="flex-grow border-t border-gray-300" />
+            <span className="text-white">Or</span>
+            <hr className="flex-grow border-t border-gray-300" />
+          </label>
 
-          <button className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg py-3 text-sm font-semibold flex items-center justify-center gap-2 mt-2 transition-all duration-200 ease-in-out transform hover:scale-105 hover:bg-gray-100 hover:border-gray-400">
+          <button className="w-full border border-muted text-primary rounded-lg py-3 text-sm font-semibold flex items-center justify-center hover:underline gap-2 mt-2 transition-all duration-200 ease-in-out transform">
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
